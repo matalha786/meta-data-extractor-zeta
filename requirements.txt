@@ -1,0 +1,8 @@
+python-magic-bin
+openpyxl
+pillow
+pypdf
+python-magic
+python-ffmpeg
+python-docx
+python-pptx
