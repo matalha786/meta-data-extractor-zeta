@@ -61,3 +61,6 @@ python cli.py example.pdf
 
 The extracted metadata will be saved in a structured format in a PDF file within the `result` folder. If a file with the same name already exists, a counter will be appended to the filename to avoid overwriting.
 
+### License
+
+This project is licensed under the GPL License. See the LICENSE file for details.
