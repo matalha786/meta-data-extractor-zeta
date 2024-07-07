@@ -32,7 +32,13 @@ Zeta Data Extractor is a tool designed to gather hidden information from documen
     ```sh
     pip install -r requirements.txt
     ```
-
+3. Setup Virtual envoirment:
+    ```sh
+    cd metaextractor-zeta
+    python -m venv .
+    . bin/activate
+or if using windows find and run metaextractor-zeta-main\Scripts\activate.bat
+    ```
 ### Usage
 
 ```sh
