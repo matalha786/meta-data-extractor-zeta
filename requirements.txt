@@ -6,3 +6,5 @@ python-magic
 python-ffmpeg
 python-docx
 python-pptx
+fpdf
+PySide6
