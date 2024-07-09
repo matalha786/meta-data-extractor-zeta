@@ -1,6 +1,7 @@
 # This Python file uses the following encoding: utf-8
 import sys
 from PySide6 import QtWidgets, QtCore
+import filetype  # Use filetype package instead of magic
 sys.path.append("lib")
 from lib import *
 from util import *
@@ -27,10 +28,10 @@ class Widget(QtWidgets.QWidget):
         self.ui.listWidget.itemDoubleClicked.connect(self.showFileMetadata)
 
     def openFileDialog(self):
-        files= QtWidgets.QFileDialog.getOpenFileNames(
+        files = QtWidgets.QFileDialog.getOpenFileNames(
                                 self,
                                 "Select one or more files to open",
-                                "/home/oggy")
+                                QtCore.QDir.homePath())
         self.filesList = list(files[0])
         self.addListWidgetItems()
 
@@ -42,14 +43,21 @@ class Widget(QtWidgets.QWidget):
         currentRow = self.ui.listWidget.currentRow()
         self.ui.listWidget.takeItem(currentRow)
         if len(self.filesList):
-            self.filesList.pop(currentRow)  # Mannual poping item from List is required
+            self.filesList.pop(currentRow)  # Manual popping item from List is required
 
     def clearList(self):
         self.ui.listWidget.clear()
+        self.filesList.clear()
 
     def showFileMetadata(self):
         currentFile = self.ui.listWidget.currentItem().text()
-        metadata = extract_metadata_file(currentFile)
+        kind = filetype.guess(currentFile)
+        if kind is None:
+            QtWidgets.QMessageBox.warning(self, "Error", "Cannot guess file type!")
+            return
+
+        file_type = kind.mime
+        metadata = extract_metadata_file(currentFile, file_type)
 
         self.window = OutputWindow()
         self.window.setWindowTitle(f"Metadata - {currentFile}")
@@ -60,17 +68,22 @@ class Widget(QtWidgets.QWidget):
     def extractFromAll(self):
         create_result_folder()
         for file in self.filesList:
-            metadata = extract_metadata_file(file)
+            kind = filetype.guess(file)
+            if kind is None:
+                QtWidgets.QMessageBox.warning(self, "Error", f"Cannot guess file type for {file}!")
+                continue
+
+            file_type = kind.mime
+            metadata = extract_metadata_file(file, file_type)
             metadata = add_meta_metadata(metadata, file)
             write_pdf(file, metadata)
 
         messageBox = QtWidgets.QMessageBox(self)
         messageBox.setWindowTitle("Dialog")
         messageBox.setIcon(QtWidgets.QMessageBox.Information)
-        messageBox.setText("Sucessfully Extracted Metadata from files")
-        messageBox.setInformativeText(f"Check ./{OUTPUT_DIR}/")
+        messageBox.setText("Successfully Extracted Metadata from files")
+        messageBox.setInformativeText(f"Check ./{self.OUTPUT_DIR}/")
         messageBox.exec()
-
 
 class OutputWindow(QtWidgets.QWidget):
     def __init__(self):
