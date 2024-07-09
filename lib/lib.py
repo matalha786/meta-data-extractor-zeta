@@ -1,14 +1,13 @@
 from pypdf import PdfReader  # pdf
-from ffmpeg import ffmpeg  # audio/video
-from ffmpeg import *  # audio/video
+import ffmpeg  # audio/video
 import xml.etree.ElementTree as ET  # xml
 from PIL import Image, ExifTags
 from docx import Document
 from openpyxl import load_workbook
 from pptx import Presentation
-import magic
 import datetime
 import os
+import subprocess
 from pypdf.generic import NameObject, TextStringObject, DictionaryObject
 
 OUTPUT_DIR = "output"
@@ -17,18 +16,22 @@ def extract_metadata_pdf(in_file) -> dict:
     reader = PdfReader(in_file)
     return reader.metadata
 
-# audio and video
+
 def extract_metadata_media(in_file) -> dict:
-    ffprobe = FFmpeg(executable="ffprobe")
-    ffprobe.input(in_file, print_format="xml", show_streams=None)
-
-    metadata = ffprobe.execute()
-    metadata_string = metadata.decode()  # Convert Bytes to String
-
-    tree = ET.fromstring(metadata_string)  # Parse xml tree
-    root = tree[0][0]  # Set root node i.e (ffprobe -> Streams -> Stream)
-    # Root--^
-    return root.attrib
+    try:
+        # Run ffprobe
+        metadata = ffmpeg.probe(in_file, show_format=None, show_streams=None)
+        return metadata
+    except FileNotFoundError as e:
+        print("Error: ffprobe not found. Please ensure FFmpeg is installed and ffprobe is in your system's PATH.")
+        raise e
+    except ffmpeg.Error as e:
+        print("An error occurred while extracting metadata from the media file:", e)
+        print(e.stderr.decode('utf8'))
+        raise e
+    except Exception as e:
+        print("An error occurred while extracting metadata from the media file:", e)
+        raise e
 
 def extract_metadata_raster_image(in_file) -> dict:
     image = Image.open(in_file)
@@ -129,8 +132,7 @@ def print_data(dictionary) -> None:
     for k, v in items:
         print(k, ":", v)
 
-def extract_metadata_file(file: str):
-    file_type = magic.from_file(file, mime=True)
+def extract_metadata_file(file: str, file_type: str):
     metadata = {}
 
     match file_type:
