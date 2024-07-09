@@ -1,5 +1,6 @@
 from pypdf import PdfReader  # pdf
-from ffmpeg import FFmpeg  # audio/video
+from ffmpeg import ffmpeg  # audio/video
+from ffmpeg import *  # audio/video
 import xml.etree.ElementTree as ET  # xml
 from PIL import Image, ExifTags
 from docx import Document
