@@ -50,9 +50,9 @@ or type in powershell
 
     Scripts\activate.bat
 
-Here's a step-by-step guide to adding FFmpeg to the system PATH on Windows:
+## Here's a step-by-step guide to adding FFmpeg to the system PATH on Windows for mp4 meta data extraction:
 
-### Step-by-Step Guide
+### Step-by-Step Guide For Windows
 
 1. **Download and Extract FFmpeg**:
    - Go to [FFmpeg's official website](https://ffmpeg.org/download.html).
@@ -96,6 +96,69 @@ Here's a step-by-step guide to adding FFmpeg to the system PATH on Windows:
      ffprobe -version
      ```
    - If the PATH is set correctly, you should see the version information for `ffprobe`.
+
+### Step-by-Step Guide For Linux 
+## Here's a step-by-step guide to installing FFmpeg on Ubuntu and adding it to your system PATH:
+
+### Step-by-Step Guide for Ubuntu
+
+1. **Install FFmpeg**:
+
+   - Open a terminal and run the following command to update the package list:
+     ```bash
+     sudo apt update
+     ```
+
+   - Install FFmpeg using the following command:
+     ```bash
+     sudo apt install ffmpeg
+     ```
+
+   - Confirm the installation by checking the version:
+     ```bash
+     ffmpeg -version
+     ```
+
+2. **Add FFmpeg to the System PATH**:
+
+   On Ubuntu, FFmpeg is usually installed in a directory that is already in your system PATH. However, if for some reason it is not, you can manually add it to your PATH.
+
+   - First, find out where FFmpeg is installed:
+     ```bash
+     which ffmpeg
+     ```
+
+   - This will output the path to the `ffmpeg` executable, typically `/usr/bin/ffmpeg`.
+
+3. **Edit the `.bashrc` File**:
+
+   - Open the `.bashrc` file in your home directory using a text editor. For example, with `nano`:
+     ```bash
+     nano ~/.bashrc
+     ```
+
+   - Add the following line at the end of the file, replacing `/usr/bin` with the actual directory if it is different:
+     ```bash
+     export PATH="$PATH:/usr/bin"
+     ```
+
+   - Save the file and exit the editor. In `nano`, you can do this by pressing `Ctrl + X`, then `Y`, and `Enter`.
+
+4. **Apply the Changes**:
+
+   - To apply the changes made to `.bashrc`, run the following command:
+     ```bash
+     source ~/.bashrc
+     ```
+
+5. **Verify the Configuration**:
+
+   - Open a new terminal window and check the FFmpeg installation:
+     ```bash
+     ffmpeg -version
+     ```
+
+   - You should see the version information for FFmpeg, indicating that it is correctly installed and accessible.
 
 
 ```sh
