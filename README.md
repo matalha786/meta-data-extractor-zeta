@@ -45,10 +45,11 @@ Zeta Data Extractor is a tool designed to gather hidden information from documen
     python -m venv .
 find and run ```
 metaextractor-zeta-main\Scripts\activate.bat ```
+
 or type in powershell
 
     Scripts\activate.bat
-    ```
+    
 ### Usage
 
 ```sh
