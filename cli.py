@@ -1,6 +1,6 @@
 import sys
 import os
-import magic
+import filetype  # Use filetype package instead of magic
 sys.path.append("lib")
 from lib import *
 from util import *
@@ -24,9 +24,14 @@ def main():
         return
 
     file = sys.argv[1]
-    file_type = magic.from_file(file, mime=True)
+    kind = filetype.guess(file)
+    if kind is None:
+        print("Cannot guess file type!")
+        return
+
+    file_type = kind.mime
     print("File Type:", file_type)
-    metadata = extract_metadata_file(file)
+    metadata = extract_metadata_file(file, file_type)
 
     print_data(metadata)
 
