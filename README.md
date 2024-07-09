@@ -49,8 +49,54 @@ metaextractor-zeta-main\Scripts\activate.bat ```
 or type in powershell
 
     Scripts\activate.bat
-    
-### Usage
+
+Here's a step-by-step guide to adding FFmpeg to the system PATH on Windows:
+
+### Step-by-Step Guide
+
+1. **Download and Extract FFmpeg**:
+   - Go to [FFmpeg's official website](https://ffmpeg.org/download.html).
+   - Download the build suitable for your system (Windows).
+   - Extract the downloaded ZIP file to a directory of your choice. For example, `C:\ffmpeg`.
+
+2. **Locate the `bin` Folder**:
+   - After extracting, navigate to the folder where FFmpeg was extracted. You should see a folder named `bin` inside the FFmpeg directory. For example, `C:\ffmpeg\bin`.
+
+3. **Add the `bin` Folder to System PATH**:
+
+   1. **Open Environment Variables**:
+      - Press `Win + S` (or open the Start Menu) and type "env".
+      - Select "Edit the system environment variables" from the search results.
+
+   2. **Open Environment Variables Window**:
+      - In the System Properties window, click on the "Environment Variables..." button near the bottom right.
+
+   3. **Edit the PATH Variable**:
+      - In the Environment Variables window, you will see two sections: "User variables" and "System variables".
+      - In the "System variables" section, scroll down and find the variable named `Path`.
+      - Select `Path` and click on the "Edit..." button.
+
+   4. **Add New PATH Entry**:
+      - In the Edit Environment Variable window, click on the "New" button on the right side.
+      - Enter the path to the `bin` folder inside the FFmpeg directory. For example, `C:\ffmpeg\bin`.
+
+   5. **Save the Changes**:
+      - Click OK to close the Edit Environment Variable window.
+      - Click OK again to close the Environment Variables window.
+      - Click OK to close the System Properties window.
+
+### Verify the Configuration
+
+1. **Open Command Prompt**:
+   - Press `Win + R`, type `cmd`, and press Enter to open the Command Prompt.
+
+2. **Check ffmpeg Installation**:
+   - In the Command Prompt, type the following command and press Enter:
+     ```bash
+     ffprobe -version
+     ```
+   - If the PATH is set correctly, you should see the version information for `ffprobe`.
+
 
 ```sh
 python cli.py [options] <file>
