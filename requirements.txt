@@ -8,4 +8,7 @@ python-pptx
 fpdf
 PySide6
 FFmpeg
+filetype
+python-magic
+ffprobe
 libmagic
